@@ -47,6 +47,12 @@
             <p class="text-slate-600 mt-1">Bienvenido al sistema de gestion de incidentes</p>
         </div>
 
+        @if (session()->has('message'))
+            <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
+                <p class="text-green-800 text-sm">{{ session('message') }}</p>
+            </div>
+        @endif
+
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-200">
@@ -93,6 +99,19 @@
         </div>
 
         <!-- Quick Actions -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-200 mb-6">
+            <h2 class="text-lg font-semibold text-slate-900 mb-4">Acciones rápidas</h2>
+            <div class="flex flex-wrap gap-4">
+                <a href="{{ route('tickets.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition">
+                    <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    Crear Nuevo Ticket
+                </a>
+            </div>
+        </div>
+
+        <!-- Info -->
         <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-200">
             <h2 class="text-lg font-semibold text-slate-900 mb-4">Sistema en desarrollo</h2>
             <p class="text-slate-600">

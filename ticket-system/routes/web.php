@@ -23,15 +23,19 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Dashboard - Diferenciado por rol
+    // Dashboard - Solo para Administradores
     Route::get('/dashboard', function () {
+        // Si es empleado, redirigir a mis tickets
+        if (auth()->user()->esEmpleado()) {
+            return redirect()->route('tickets.index');
+        }
         return view('dashboard');
     })->name('dashboard');
 
-    // Tickets - Componentes Livewire (por implementar)
-    // Route::get('/tickets', \App\Livewire\Tickets\TicketList::class)->name('tickets.index');
-    // Route::get('/tickets/create', \App\Livewire\Tickets\TicketCreate::class)->name('tickets.create');
-    // Route::get('/tickets/{ticket}', \App\Livewire\Tickets\TicketShow::class)->name('tickets.show');
+    // Tickets - Solo usuarios autenticados
+    Route::get('/tickets', \App\Livewire\Tickets\MyTickets::class)->name('tickets.index');
+    Route::get('/tickets/create', \App\Livewire\Tickets\CreateTicket::class)->name('tickets.create');
+    // Route::get('/tickets/{ticket}', \App\Livewire\Tickets\TicketShow::class)->name('tickets.show'); // por implementar
 
     // Rutas de perfil
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

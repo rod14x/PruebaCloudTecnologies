@@ -29,7 +29,7 @@
                 placeholder="tu@email.com"
                 required 
             />
-            <x-input-error :messages="$errors->get('email')" />
+            <x-input-error for="email" />
         </div>
 
         <!-- DNI -->
@@ -70,7 +70,7 @@
                 placeholder="Min. 8 caracteres"
                 required 
             />
-            <x-input-error :messages="$errors->get('password')" />
+            <x-input-error for="password" />
         </div>
 
         <!-- Password Confirmation -->
