@@ -19,6 +19,8 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Administrador',
             'email' => 'admin@test.com',
+            'dni' => '12345678',
+            'telefono' => '987654321',
             'password' => Hash::make('password'),
             'rol' => RolUsuario::ADMINISTRADOR,
         ]);
@@ -27,6 +29,8 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Empleado',
             'email' => 'empleado@test.com',
+            'dni' => '87654321',
+            'telefono' => '912345678',
             'password' => Hash::make('password'),
             'rol' => RolUsuario::EMPLEADO,
         ]);
