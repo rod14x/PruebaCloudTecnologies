@@ -21,8 +21,12 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'dni',
+        'telefono',
         'password',
         'rol',
+        'codigo_recuperacion',
+        'codigo_recuperacion_expira',
     ];
 
     /**
@@ -33,6 +37,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'codigo_recuperacion',
     ];
 
     /**
@@ -46,6 +51,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'rol' => RolUsuario::class,
+            'codigo_recuperacion_expira' => 'datetime',
         ];
     }
 
