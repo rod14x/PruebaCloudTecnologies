@@ -17,7 +17,7 @@
                 required 
                 autofocus 
             />
-            <x-input-error :messages="$errors->get('email')" />
+            <x-input-error for="email" />
         </div>
 
         <!-- Password -->
@@ -30,7 +30,7 @@
                 placeholder="••••••••"
                 required 
             />
-            <x-input-error :messages="$errors->get('password')" />
+            <x-input-error for="password" />
         </div>
 
         <!-- Remember Me -->

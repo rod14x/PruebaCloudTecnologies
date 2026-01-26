@@ -50,7 +50,7 @@
                 placeholder="Min. 8 caracteres"
                 required 
             />
-            <x-input-error :messages="$errors->get('password')" />
+            <x-input-error for="password" />
         </div>
 
         <!-- Password Confirmation -->

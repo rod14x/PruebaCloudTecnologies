@@ -36,7 +36,7 @@
                 required 
                 autofocus 
             />
-            <x-input-error :messages="$errors->get('email')" />
+            <x-input-error for="email" />
         </div>
 
         <!-- Submit Button -->
