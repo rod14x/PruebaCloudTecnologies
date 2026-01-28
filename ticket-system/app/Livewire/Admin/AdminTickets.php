@@ -24,8 +24,12 @@ class AdminTickets extends Component
     // Para cambio de estado
     public $ticketIdToChange = null;
     public $nuevoEstado = null;
-    public $comentario = '';
+    public $contenido = '';
     public $showModal = false;
+    
+    // Notificaciones
+    public $notification = null;
+    public $notificationType = 'success';
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -58,7 +62,7 @@ class AdminTickets extends Component
     {
         $this->ticketIdToChange = $ticketId;
         $this->nuevoEstado = $estadoActual;
-        $this->comentario = '';
+        $this->contenido = '';
         $this->showModal = true;
     }
 
@@ -67,28 +71,30 @@ class AdminTickets extends Component
         $this->showModal = false;
         $this->ticketIdToChange = null;
         $this->nuevoEstado = null;
-        $this->comentario = '';
+        $this->contenido = '';
     }
 
     public function cambiarEstado(TicketService $ticketService)
     {
         $this->validate([
             'nuevoEstado' => 'required|integer',
-            'comentario' => 'nullable|string|max:500',
+            'contenido' => 'nullable|string|max:500',
         ]);
 
         try {
             $ticketService->changeEstadoById(
                 $this->ticketIdToChange,
                 EstadoTicket::from($this->nuevoEstado),
-                $this->comentario
+                $this->contenido
             );
 
             $this->dispatch('ticket-updated');
-            session()->flash('success', 'Estado del ticket actualizado correctamente.');
+            $this->notification = 'Estado del ticket actualizado correctamente.';
+            $this->notificationType = 'success';
             $this->closeModal();
         } catch (\Exception $e) {
-            session()->flash('error', 'Error al actualizar el estado: ' . $e->getMessage());
+            $this->notification = 'Error al actualizar el estado: ' . $e->getMessage();
+            $this->notificationType = 'error';
         }
     }
 

@@ -14,6 +14,7 @@ class HistorialEstado extends Model
         'usuario_id',
         'estado_anterior',
         'estado_nuevo',
+        'comentario',
     ];
 
     protected $casts = [

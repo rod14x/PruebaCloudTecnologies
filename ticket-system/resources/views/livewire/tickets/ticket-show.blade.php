@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s="refresh">
     <x-slot name="title">Ticket #{{ $ticket->id }} - {{ $ticket->titulo }}</x-slot>
 
     <div class="py-8">
@@ -42,32 +42,54 @@
                         <h2 class="text-2xl font-bold text-gray-900 mb-2">{{ $ticket->titulo }}</h2>
                         <p class="text-sm text-gray-600">Ticket #{{ $ticket->id }} • Creado {{ $ticket->created_at->diffForHumans() }}</p>
                     </div>
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
-                        @if($ticket->estado === App\Enums\EstadoTicket::PENDIENTE) bg-gray-100 text-gray-800
-                        @elseif($ticket->estado === App\Enums\EstadoTicket::EN_PROCESO) bg-blue-100 text-blue-800
-                        @else bg-green-100 text-green-800
-                        @endif">
-                        {{ $ticket->estado->nombre() }}
-                    </span>
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
-                        @if($ticket->prioridad->value === 2) bg-red-100 text-red-800
-                        @elseif($ticket->prioridad->value === 1) bg-yellow-100 text-yellow-800
-                        @else bg-green-100 text-green-800
-                        @endif">
-                        {{ $ticket->prioridad->nombre() }}
-                    </span>
+                    <div class="flex items-center gap-2">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
+                            @if($ticket->estado === App\Enums\EstadoTicket::PENDIENTE) bg-gray-100 text-gray-800
+                            @elseif($ticket->estado === App\Enums\EstadoTicket::EN_PROCESO) bg-blue-100 text-blue-800
+                            @else bg-green-100 text-green-800
+                            @endif">
+                            {{ $ticket->estado->nombre() }}
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
+                            @if($ticket->prioridad->value === 2) bg-red-100 text-red-800
+                            @elseif($ticket->prioridad->value === 1) bg-yellow-100 text-yellow-800
+                            @else bg-green-100 text-green-800
+                            @endif">
+                            {{ $ticket->prioridad->nombre() }}
+                        </span>
+                        @if(auth()->user()->esAdministrador())
+                            <a 
+                                href="{{ route('tickets.cambiar-estado', $ticket->id) }}"
+                                class="inline-flex items-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-150 shadow-sm">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Cambiar Estado
+                            </a>
+                        @endif
+                    </div>
                 </div>
             </div>
 
-            @if (session()->has('success'))
-                <div class="mb-4 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
-                    {{ session('success') }}
+            @if ($notification)
+                <div class="fixed top-20 right-4 z-50 max-w-md" 
+                     x-data="{ show: true }" 
+                     x-show="show"
+                     x-init="setTimeout(() => { show = false; $wire.set('notification', null); }, 5000)">
+                    <x-toast type="{{ $notificationType }}">
+                        {{ $notification }}
+                    </x-toast>
                 </div>
             @endif
 
-            @if (session()->has('error'))
-                <div class="mb-4 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
-                    {{ session('error') }}
+            @if (session('message'))
+                <div class="fixed top-20 right-4 z-50 max-w-md" 
+                     x-data="{ show: true }" 
+                     x-show="show"
+                     x-init="setTimeout(() => { show = false; }, 5000)">
+                    <x-toast type="{{ session('type', 'success') }}">
+                        {{ session('message') }}
+                    </x-toast>
                 </div>
             @endif
 
@@ -88,7 +110,7 @@
                                     </svg>
                                     Archivos Adjuntos ({{ $ticket->archivosAdjuntos->count() }})
                                 </h4>
-                                <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
                                     @foreach($ticket->archivosAdjuntos as $archivo)
                                         <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
                                             @php
@@ -98,11 +120,11 @@
                                             
                                             @if($isImage)
                                                 <!-- Preview de Imagen -->
-                                                <div class="relative group cursor-pointer" 
+                                                <div class="relative group cursor-pointer h-32" 
                                                      @click="modalOpen = true; currentImage = '{{ Storage::url($archivo->ruta_archivo) }}'">
                                                     <img src="{{ Storage::url($archivo->ruta_archivo) }}" 
                                                          alt="{{ $archivo->nombre_archivo }}"
-                                                         class="w-full h-20 object-cover">
+                                                         class="w-full h-full object-cover">
                                                     <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-opacity flex items-center justify-center">
                                                         <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path>
@@ -111,7 +133,7 @@
                                                 </div>
                                             @else
                                                 <!-- Icono para archivos no imagen -->
-                                                <div class="w-full h-20 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+                                                <div class="w-full h-32 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
                                                     <div class="text-center">
                                                         <svg class="h-8 w-8 text-gray-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -282,9 +304,9 @@
                                                             <p class="text-sm text-gray-900">
                                                                 <span class="font-medium">{{ $cambio->usuario->name }}</span>
                                                                 cambió de
-                                                                <span class="font-medium text-gray-600">{{ \App\Enums\EstadoTicket::from($cambio->estado_anterior)->nombre() }}</span>
+                                                                <span class="font-medium text-gray-600">{{ $cambio->estado_anterior->nombre() }}</span>
                                                                 a
-                                                                <span class="font-medium text-blue-600">{{ \App\Enums\EstadoTicket::from($cambio->estado_nuevo)->nombre() }}</span>
+                                                                <span class="font-medium text-blue-600">{{ $cambio->estado_nuevo->nombre() }}</span>
                                                             </p>
                                                             @if($cambio->comentario)
                                                                 <p class="mt-1 text-sm text-gray-600 bg-gray-50 p-2 rounded">
@@ -311,3 +333,21 @@
         </div>
     </div>
 </div>
+
+@script
+<script>
+    window.Echo.channel('ticket.{{ $ticket->id }}')
+        .listen('TicketUpdated', (e) => {
+            console.log('Ticket actualizado en tiempo real:', e);
+            
+            // Actualizar el componente Livewire
+            $wire.refresh();
+            
+            // Mostrar notificación solo para usuarios no admin
+            @if(!auth()->user()->esAdministrador())
+                $wire.set('notification', 'El ticket ha sido actualizado por un administrador.');
+                $wire.set('notificationType', 'info');
+            @endif
+        });
+</script>
+@endscript

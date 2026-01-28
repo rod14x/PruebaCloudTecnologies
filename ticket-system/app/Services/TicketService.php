@@ -74,6 +74,10 @@ class TicketService
                     'usuario_id' => auth()->id(),
                     'comentario' => $comentario,
                 ]);
+                
+                // Disparar evento de broadcasting
+                $ticket->refresh();
+                event(new \App\Events\TicketUpdated($ticket));
             }
 
             return $updated;

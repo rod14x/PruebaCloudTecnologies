@@ -37,15 +37,14 @@
             </div>
 
             <!-- Alertas -->
-            @if (session()->has('success'))
-                <div class="mb-4 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if (session()->has('error'))
-                <div class="mb-4 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
-                    {{ session('error') }}
+            @if ($notification)
+                <div class="fixed top-20 right-4 z-50 max-w-md" 
+                     x-data="{ show: true }" 
+                     x-show="show"
+                     x-init="setTimeout(() => { show = false; $wire.set('notification', null); }, 5000)">
+                    <x-toast type="{{ $notificationType }}">
+                        {{ $notification }}
+                    </x-toast>
                 </div>
             @endif
 
@@ -200,14 +199,13 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <a href="{{ route('tickets.show', $ticket->id) }}" 
-                                           class="text-blue-600 hover:text-blue-900 mr-3">
-                                            Ver
+                                           class="inline-flex items-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-lg transition-colors duration-150 shadow-sm">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                            </svg>
+                                            Ver Detalles
                                         </a>
-                                        <button 
-                                            wire:click="openChangeEstadoModal({{ $ticket->id }}, {{ $ticket->estado->value }})"
-                                            class="text-green-600 hover:text-green-900">
-                                            Cambiar Estado
-                                        </button>
                                     </td>
                                 </tr>
                             @empty
@@ -232,57 +230,38 @@
         </div>
     </div>
 
-    <!-- Modal Cambiar Estado - Mejorado -->
+    <!-- Panel de Cambio de Estado (Inline) -->
     @if($showModal)
-        <div class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-            <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <!-- Backdrop -->
-                <div 
-                    class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity" 
-                    wire:click="closeModal"
-                    x-data="{}"
-                    x-transition:enter="ease-out duration-300"
-                    x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100"
-                    x-transition:leave="ease-in duration-200"
-                    x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
-                ></div>
-                
-                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-                
-                <!-- Modal Content -->
-                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                    <form wire:submit.prevent="cambiarEstado">
-                        <!-- Header del Modal -->
-                        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 px-6 py-4">
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-lg font-semibold text-white flex items-center">
-                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    Cambiar Estado del Ticket
-                                </h3>
-                                <button 
-                                    type="button"
-                                    wire:click="closeModal"
-                                    class="text-white hover:text-gray-200 transition">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
+        <div class="bg-white border-t-4 border-blue-600 shadow-lg rounded-lg p-6 mb-6">
+            <form wire:submit.prevent="cambiarEstado">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-semibold text-gray-900 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Cambiar Estado del Ticket
+                    </h3>
+                    <button 
+                        type="button"
+                        wire:click="closeModal"
+                        class="text-gray-400 hover:text-gray-600 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
 
-                        <!-- Body del Modal -->
-                        <div class="bg-white px-6 py-5">
-                            <div class="space-y-5">
+                <!-- Body -->
+                <div class="space-y-5">
                                 <!-- Estado -->
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                    <label for="nuevoEstado" class="block text-sm font-semibold text-gray-900 mb-2">
                                         Nuevo Estado <span class="text-red-500">*</span>
                                     </label>
                                     <select 
+                                        id="nuevoEstado"
+                                        name="nuevoEstado"
                                         wire:model="nuevoEstado"
                                         class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition"
                                         required
@@ -298,11 +277,13 @@
 
                                 <!-- Comentario -->
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                    <label for="contenido" class="block text-sm font-semibold text-gray-900 mb-2">
                                         Comentario (opcional)
                                     </label>
                                     <textarea 
-                                        wire:model="comentario"
+                                        id="contenido"
+                                        name="contenido"
+                                        wire:model="contenido"
                                         rows="4"
                                         maxlength="500"
                                         class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition"
@@ -310,8 +291,8 @@
                                     ></textarea>
                                     <div class="mt-1 flex items-center justify-between">
                                         <p class="text-xs text-gray-500">Este comentario se guardará en el historial</p>
-                                        <p class="text-xs font-medium {{ strlen($comentario) > 450 ? 'text-red-600' : 'text-gray-500' }}">
-                                            {{ strlen($comentario) }}/500
+                                        <p class="text-xs font-medium {{ strlen($contenido) > 450 ? 'text-red-600' : 'text-gray-500' }}">
+                                            {{ strlen($contenido) }}/500
                                         </p>
                                     </div>
                                 </div>
@@ -333,29 +314,29 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- Footer del Modal -->
-                        <div class="bg-gray-50 px-6 py-4 sm:flex sm:flex-row-reverse sm:gap-3">
-                            <button 
-                                type="submit"
-                                class="w-full inline-flex justify-center items-center rounded-lg border border-transparent shadow-sm px-6 py-2.5 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm transition-colors"
-                            >
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                Guardar Cambios
-                            </button>
-                            <button 
-                                type="button"
-                                wire:click="closeModal"
-                                class="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-6 py-2.5 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm transition-colors"
-                            >
-                                Cancelar
-                            </button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+                
+                <!-- Footer -->
+                <div class="flex justify-end gap-3 pt-6 border-t border-gray-200">
+                    <button 
+                        type="button"
+                        wire:click="closeModal"
+                        class="px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors"
+                    >
+                        Cancelar
+                    </button>
+                    <button 
+                        type="submit"
+                        class="inline-flex items-center px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-sm"
+                    >
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
         </div>
     @endif
 </div>
