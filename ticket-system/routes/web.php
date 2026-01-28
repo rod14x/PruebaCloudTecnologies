@@ -50,9 +50,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/tickets', AdminTickets::class)->name('tickets.index');
     });
 
+    // Tickets - Accesibles por usuarios autenticados
+    Route::get('/tickets', MyTickets::class)->middleware('employee')->name('tickets.index');
+    Route::get('/tickets/create', CreateTicket::class)->middleware('employee')->name('tickets.create');
+    Route::get('/tickets/{ticket}', TicketShow::class)->name('tickets.show'); // Ambos roles
     Route::get('/tickets/{ticket}/cambiar-estado', CambiarEstado::class)
         ->middleware('admin')
         ->name('tickets.cambiar-estado');
-
 });
 
