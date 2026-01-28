@@ -126,6 +126,37 @@ class Ticket extends Model
     }
 
     /**
+     * Scope para tickets visibles (excluye resueltos con más de 1 semana)
+     * Los tickets resueltos desaparecen automáticamente después de 1 semana
+     */
+    public function scopeVisiblesParaUsuario(Builder $query): Builder
+    {
+        return $query->where(function($q) {
+            // Incluir todos los tickets NO resueltos
+            $q->where('estado', '!=', EstadoTicket::RESUELTO->value)
+              // O incluir resueltos con menos de 1 semana
+              ->orWhere(function($subQuery) {
+                  $subQuery->where('estado', EstadoTicket::RESUELTO->value)
+                           ->where('updated_at', '>=', now()->subWeek());
+              });
+        });
+    }
+
+    /**
+     * Verificar si el ticket debe ocultarse automáticamente
+     * Se oculta si está resuelto y tiene más de 1 semana
+     */
+    public function debeOcultarse(): bool
+    {
+        $estadoValue = $this->estado instanceof EstadoTicket 
+            ? $this->estado->value 
+            : $this->estado;
+            
+        return $estadoValue === EstadoTicket::RESUELTO->value 
+            && $this->updated_at->lt(now()->subWeek());
+    }
+
+    /**
      * Scope para ordenar por fecha de creación
      */
     public function scopeRecent(Builder $query): Builder

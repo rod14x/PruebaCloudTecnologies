@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Livewire\Admin\AdminTickets;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\Auth\ForgotPassword;
@@ -51,17 +50,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/tickets', AdminTickets::class)->name('tickets.index');
     });
 
-    // Tickets - Solo usuarios autenticados
-    Route::get('/tickets', MyTickets::class)->name('tickets.index');
-    Route::get('/tickets/create', CreateTicket::class)->name('tickets.create');
-    Route::get('/tickets/{ticket}', TicketShow::class)->name('tickets.show');
     Route::get('/tickets/{ticket}/cambiar-estado', CambiarEstado::class)
         ->middleware('admin')
         ->name('tickets.cambiar-estado');
 
-    // Rutas de perfil
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 

@@ -19,8 +19,7 @@ class TicketRepository implements TicketRepositoryInterface
      */
     public function getByUser(int $userId): Collection
     {
-        return Ticket::forUser($userId)
-            ->withBasicRelations()
+        return Ticket::forUser($userId)            ->visiblesParaUsuario() // Ocultar resueltos con más de 1 semana            ->withBasicRelations()
             ->recent()
             ->get();
     }
@@ -102,13 +101,14 @@ class TicketRepository implements TicketRepositoryInterface
     /**
      * Obtener estadísticas de tickets
      * Optimizado con queries individuales en vez de clones
+     * Si se pasa userId, solo cuenta tickets visibles para ese usuario
      */
     public function getStats(?int $userId = null): array
     {
         $baseQuery = Ticket::query();
 
         if ($userId) {
-            $baseQuery->forUser($userId);
+            $baseQuery->forUser($userId)->visiblesParaUsuario();
         }
 
         return [
