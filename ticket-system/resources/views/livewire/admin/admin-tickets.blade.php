@@ -8,7 +8,7 @@
                 <nav class="flex mb-4" aria-label="Breadcrumb">
                     <ol class="inline-flex items-center space-x-1 md:space-x-3">
                         <li class="inline-flex items-center">
-                            <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                            <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-brand-primary">
                                 <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
                                 </svg>
@@ -55,7 +55,7 @@
                     @if($search || $estadoFilter !== '' || $prioridadFilter !== '' || $categoriaFilter)
                         <button 
                             wire:click="$set('search', ''); $set('estadoFilter', ''); $set('prioridadFilter', ''); $set('categoriaFilter', '');"
-                            class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                            class="text-sm text-brand-primary hover:text-brand-primary-dark font-medium">
                             Limpiar filtros
                         </button>
                     @endif
@@ -73,7 +73,7 @@
                             type="text" 
                             wire:model.live.debounce.300ms="search" 
                             placeholder="Título, descripción o usuario..."
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary"
                         >
                     </div>
 
@@ -84,7 +84,7 @@
                         </label>
                         <select 
                             wire:model.live="estadoFilter"
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary"
                         >
                             <option value="">Todos los estados</option>
                             @foreach($estados as $estado)
@@ -100,7 +100,7 @@
                         </label>
                         <select 
                             wire:model.live="prioridadFilter"
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary"
                         >
                             <option value="">Todas las prioridades</option>
                             @foreach($prioridades as $prioridad)
@@ -116,7 +116,7 @@
                         </label>
                         <select 
                             wire:model.live="categoriaFilter"
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary"
                         >
                             <option value="">Todas las categorías</option>
                             @foreach($categorias as $categoria)
@@ -188,7 +188,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                                             @if($ticket->estado === App\Enums\EstadoTicket::PENDIENTE) bg-gray-100 text-gray-800
-                                            @elseif($ticket->estado === App\Enums\EstadoTicket::EN_PROCESO) bg-blue-100 text-blue-800
+                                            @elseif($ticket->estado === App\Enums\EstadoTicket::EN_PROCESO) bg-orange-100 text-brand-primary
                                             @else bg-green-100 text-green-800
                                             @endif">
                                             {{ $ticket->estado->nombre() }}
@@ -199,7 +199,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <a href="{{ route('tickets.show', $ticket->id) }}" 
-                                           class="inline-flex items-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-lg transition-colors duration-150 shadow-sm">
+                                           class="inline-flex items-center px-3 py-1.5 bg-brand-primary hover:bg-brand-primary-dark text-white text-xs font-medium rounded-lg transition-colors duration-150 shadow-sm">
                                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
@@ -232,12 +232,12 @@
 
     <!-- Panel de Cambio de Estado (Inline) -->
     @if($showModal)
-        <div class="bg-white border-t-4 border-blue-600 shadow-lg rounded-lg p-6 mb-6">
+        <div class="bg-white border-t-4 border-brand-primary shadow-lg rounded-lg p-6 mb-6">
             <form wire:submit.prevent="cambiarEstado">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-xl font-semibold text-gray-900 flex items-center">
-                        <svg class="w-6 h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 mr-2 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         Cambiar Estado del Ticket
@@ -263,7 +263,7 @@
                                         id="nuevoEstado"
                                         name="nuevoEstado"
                                         wire:model="nuevoEstado"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition"
+                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary focus:ring-opacity-50 transition"
                                         required
                                     >
                                         @foreach($estados as $estado)
@@ -286,7 +286,7 @@
                                         wire:model="contenido"
                                         rows="4"
                                         maxlength="500"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition"
+                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary focus:ring-opacity-50 transition"
                                         placeholder="Agrega un comentario sobre el cambio de estado... (opcional)"
                                     ></textarea>
                                     <div class="mt-1 flex items-center justify-between">
@@ -298,15 +298,15 @@
                                 </div>
 
                                 <!-- Info adicional -->
-                                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                <div class="bg-orange-50 border border-brand-primary rounded-lg p-4">
                                     <div class="flex">
                                         <div class="flex-shrink-0">
-                                            <svg class="h-5 w-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <svg class="h-5 w-5 text-brand-primary" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
                                             </svg>
                                         </div>
                                         <div class="ml-3">
-                                            <p class="text-sm text-blue-800">
+                                            <p class="text-sm text-gray-700">
                                                 El cambio de estado se registrará en el historial y el usuario del ticket será notificado.
                                             </p>
                                         </div>
@@ -328,7 +328,7 @@
                     </button>
                     <button 
                         type="submit"
-                        class="inline-flex items-center px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-sm"
+                        class="inline-flex items-center px-6 py-2.5 bg-brand-primary hover:bg-brand-primary-dark text-white font-medium rounded-lg transition-colors shadow-sm"
                     >
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>

@@ -7,7 +7,7 @@
             <nav class="flex mb-4" aria-label="Breadcrumb">
                 <ol class="inline-flex items-center space-x-1 md:space-x-3">
                     <li class="inline-flex items-center">
-                        <a href="{{ auth()->user()->esAdministrador() ? route('admin.dashboard') : route('dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                        <a href="{{ auth()->user()->esAdministrador() ? route('admin.dashboard') : route('dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-brand-primary">
                             <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
                             </svg>
@@ -19,7 +19,7 @@
                             <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                             </svg>
-                            <a href="{{ auth()->user()->esAdministrador() ? route('admin.tickets.index') : route('tickets.index') }}" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2">
+                            <a href="{{ auth()->user()->esAdministrador() ? route('admin.tickets.index') : route('tickets.index') }}" class="ml-1 text-sm font-medium text-gray-700 hover:text-brand-primary md:ml-2">
                                 Tickets
                             </a>
                         </div>
@@ -45,7 +45,7 @@
                     <div class="flex items-center gap-2">
                         <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
                             @if($ticket->estado === App\Enums\EstadoTicket::PENDIENTE) bg-gray-100 text-gray-800
-                            @elseif($ticket->estado === App\Enums\EstadoTicket::EN_PROCESO) bg-blue-100 text-blue-800
+                            @elseif($ticket->estado === App\Enums\EstadoTicket::EN_PROCESO) bg-orange-100 text-brand-primary
                             @else bg-green-100 text-green-800
                             @endif">
                             {{ $ticket->estado->nombre() }}
@@ -60,7 +60,7 @@
                         @if(auth()->user()->esAdministrador())
                             <a 
                                 href="{{ route('tickets.cambiar-estado', $ticket->id) }}"
-                                class="inline-flex items-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-150 shadow-sm">
+                                class="inline-flex items-center px-3 py-1.5 bg-brand-primary hover:bg-brand-primary-dark text-white text-sm font-medium rounded-lg transition-colors duration-150 shadow-sm">
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
@@ -153,7 +153,7 @@
                                                     </span>
                                                     <a href="{{ Storage::url($archivo->ruta_archivo) }}" 
                                                        download="{{ $archivo->nombre_archivo }}"
-                                                       class="inline-flex items-center text-xs text-blue-600 hover:text-blue-800 font-medium">
+                                                       class="inline-flex items-center text-xs text-brand-primary hover:text-brand-primary-dark font-medium">
                                                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                                                         </svg>
@@ -203,7 +203,7 @@
                             @forelse($ticket->comentarios->sortBy('created_at') as $comentario)
                                 <div class="flex space-x-3">
                                     <div class="flex-shrink-0">
-                                        <div class="h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
+                                        <div class="h-10 w-10 rounded-full bg-brand-primary flex items-center justify-center text-white font-semibold">
                                             {{ strtoupper(substr($comentario->usuario->name, 0, 2)) }}
                                         </div>
                                     </div>
@@ -229,14 +229,14 @@
                                 wire:model="nuevoComentario"
                                 rows="3"
                                 maxlength="1000"
-                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary"
                                 placeholder="Escribe tu comentario aquí..."
                             ></textarea>
                             <div class="mt-2 flex items-center justify-between">
                                 <p class="text-sm text-gray-500">{{ strlen($nuevoComentario) }}/1000 caracteres</p>
                                 <button 
                                     type="submit"
-                                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                                    class="px-4 py-2 bg-brand-primary text-white rounded-md hover:bg-brand-primary-dark focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
                                 >
                                     Enviar Comentario
                                 </button>
@@ -293,7 +293,7 @@
                                                 @endif
                                                 <div class="relative flex space-x-3">
                                                     <div>
-                                                        <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
+                                                        <span class="h-8 w-8 rounded-full bg-brand-primary flex items-center justify-center ring-8 ring-white">
                                                             <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                                                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" />
                                                             </svg>
@@ -306,7 +306,7 @@
                                                                 cambió de
                                                                 <span class="font-medium text-gray-600">{{ $cambio->estado_anterior->nombre() }}</span>
                                                                 a
-                                                                <span class="font-medium text-blue-600">{{ $cambio->estado_nuevo->nombre() }}</span>
+                                                                <span class="font-medium text-brand-primary">{{ $cambio->estado_nuevo->nombre() }}</span>
                                                             </p>
                                                             @if($cambio->comentario)
                                                                 <p class="mt-1 text-sm text-gray-600 bg-gray-50 p-2 rounded">

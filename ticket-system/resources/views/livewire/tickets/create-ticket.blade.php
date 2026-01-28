@@ -1,8 +1,8 @@
 <div>
     <div class="mb-8 flex items-center justify-between">
         <div>
-            <h1 class="text-3xl font-bold text-slate-900">Crear Nuevo Ticket</h1>
-            <p class="text-slate-600 mt-1">Reporta una incidencia y adjunta evidencia si es necesario</p>
+            <h1 class="text-3xl font-bold text-brand-secondary">Crear Nuevo Ticket</h1>
+            <p class="text-gray-600 mt-1">Reporta una incidencia y adjunta evidencia si es necesario</p>
         </div>
         <x-back-button :href="route('tickets.index')" />
     </div>
@@ -38,7 +38,7 @@
                     <select 
                         id="categoria_id" 
                         wire:model="categoria_id" 
-                        class="mt-1 block w-full border-slate-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm"
+                        class="mt-1 block w-full border-brand-neutral focus:border-brand-primary focus:ring-brand-primary rounded-md shadow-sm"
                     >
                         <option value="">Seleccione una categoría</option>
                         @foreach($categorias as $categoria)
@@ -57,10 +57,10 @@
                                 type="radio" 
                                 wire:model="prioridad" 
                                 value="0" 
-                                class="text-blue-600 focus:ring-blue-500"
+                                class="text-brand-secondary focus:ring-brand-secondary"
                             >
                             <span class="ml-2 flex items-center">
-                                <span class="w-3 h-3 rounded-full bg-blue-500 mr-2"></span>
+                                <span class="w-3 h-3 rounded-full bg-brand-secondary mr-2"></span>
                                 <span class="text-sm text-slate-700">Baja</span>
                             </span>
                         </label>
@@ -102,7 +102,7 @@
                     id="descripcion" 
                     wire:model="descripcion" 
                     rows="5" 
-                    class="mt-1 block w-full border-slate-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm"
+                    class="mt-1 block w-full border-brand-neutral focus:border-brand-primary focus:ring-brand-primary rounded-md shadow-sm"
                     placeholder="Describe el problema con el mayor detalle posible..."
                 ></textarea>
                 <x-input-error for="descripcion" class="mt-2" />
@@ -111,7 +111,7 @@
             <!-- Evidencia -->
             <div>
                 <x-label for="evidencia" value="Evidencia (opcional)" />
-                <div class="mt-3 bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg p-6 hover:border-blue-400 hover:bg-blue-50 transition">
+                <div class="mt-3 bg-gray-50 border-2 border-dashed border-brand-neutral rounded-lg p-6 hover:border-brand-primary hover:bg-orange-50 transition">
                     <div class="text-center">
                         <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -151,13 +151,13 @@
                     </div>
                 @endif
 
-                <div wire:loading wire:target="evidencia" class="mt-3 bg-blue-50 border border-blue-200 rounded-lg p-3">
+                <div wire:loading wire:target="evidencia" class="mt-3 bg-orange-50 border border-brand-primary rounded-lg p-3">
                     <div class="flex items-center">
-                        <svg class="animate-spin h-5 w-5 text-blue-600 mr-3" fill="none" viewBox="0 0 24 24">
+                        <svg class="animate-spin h-5 w-5 text-brand-primary mr-3" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        <span class="text-sm text-blue-700 font-medium">Cargando imagen...</span>
+                        <span class="text-sm text-orange-700 font-medium">Cargando imagen...</span>
                     </div>
                 </div>
             </div>
@@ -175,16 +175,16 @@
     </div>
 
     <!-- Información adicional -->
-    <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+    <div class="mt-6 bg-orange-50 border border-brand-primary rounded-lg p-4">
         <div class="flex">
             <div class="flex-shrink-0">
-                <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="h-5 w-5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
             </div>
             <div class="ml-3">
-                <h3 class="text-sm font-medium text-blue-800">Información importante</h3>
-                <div class="mt-2 text-sm text-blue-700">
+                <h3 class="text-sm font-medium text-brand-secondary">Información importante</h3>
+                <div class="mt-2 text-sm text-gray-700">
                     <ul class="list-disc list-inside space-y-1">
                         <li>Los tickets se asignan automáticamente con estado "Pendiente"</li>
                         <li>Recibirás notificaciones sobre el progreso de tu ticket</li>

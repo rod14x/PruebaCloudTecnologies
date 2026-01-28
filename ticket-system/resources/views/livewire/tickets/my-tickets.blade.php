@@ -1,10 +1,10 @@
 <div>
     <div class="mb-8 flex items-center justify-between">
         <div>
-            <h1 class="text-3xl font-bold text-slate-900">Mis Tickets</h1>
-            <p class="text-slate-600 mt-1">Visualiza el estado de tus incidencias reportadas</p>
+            <h1 class="text-3xl font-bold text-brand-secondary">Mis Tickets</h1>
+            <p class="text-gray-600 mt-1">Visualiza el estado de tus incidencias reportadas</p>
         </div>
-        <a href="{{ route('tickets.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition">
+        <a href="{{ route('tickets.create') }}" class="inline-flex items-center px-4 py-2 bg-brand-primary text-white text-sm font-medium rounded-lg hover:bg-brand-primary-dark transition">
             <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
             </svg>
@@ -13,14 +13,14 @@
     </div>
 
     <!-- Info: Auto-ocultación de tickets resueltos -->
-    <div class="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+    <div class="mb-6 bg-orange-50 border border-brand-primary rounded-lg p-4">
         <div class="flex items-start">
-            <svg class="h-5 w-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="h-5 w-5 text-brand-primary mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
             <div>
-                <h3 class="text-sm font-medium text-blue-900 mb-1">Auto-archivo de tickets</h3>
-                <p class="text-sm text-blue-700">
+                <h3 class="text-sm font-medium text-brand-secondary mb-1">Auto-archivo de tickets</h3>
+                <p class="text-sm text-gray-700">
                     Los tickets resueltos se ocultarán automáticamente después de <strong>1 semana</strong> para mantener tu lista organizada. 
                     No se eliminan, solo dejan de mostrarse.
                 </p>
@@ -35,7 +35,7 @@
             </svg>
             <h3 class="text-lg font-semibold text-slate-900 mb-2">No tienes tickets</h3>
             <p class="text-slate-600 mb-6">Aún no has reportado ninguna incidencia</p>
-            <a href="{{ route('tickets.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition">
+            <a href="{{ route('tickets.create') }}" class="inline-flex items-center px-4 py-2 bg-brand-primary text-white text-sm font-medium rounded-lg hover:bg-brand-primary-dark transition">
                 Crear mi primer ticket
             </a>
         </div>
@@ -89,7 +89,7 @@
                             <!-- Estado -->
                             <span class="px-3 py-1 text-xs font-medium rounded-full whitespace-nowrap
                                 {{ $ticket->estado->value === 0 ? 'bg-amber-100 text-amber-700' : '' }}
-                                {{ $ticket->estado->value === 1 ? 'bg-blue-100 text-blue-700' : '' }}
+                                {{ $ticket->estado->value === 1 ? 'bg-orange-100 text-brand-primary' : '' }}
                                 {{ $ticket->estado->value === 2 ? 'bg-green-100 text-green-700' : '' }}
                             ">
                                 {{ $ticket->estado->nombre() }}
@@ -105,7 +105,7 @@
                             <!-- Prioridad -->
                             <div class="flex items-center gap-1.5">
                                 <span class="w-2.5 h-2.5 rounded-full
-                                    {{ $ticket->prioridad->value === 0 ? 'bg-blue-500' : '' }}
+                                    {{ $ticket->prioridad->value === 0 ? 'bg-brand-secondary' : '' }}
                                     {{ $ticket->prioridad->value === 1 ? 'bg-amber-500' : '' }}
                                     {{ $ticket->prioridad->value === 2 ? 'bg-red-500' : '' }}
                                 "></span>
@@ -150,16 +150,16 @@
                 </div>
             </div>
 
-            <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+            <div class="bg-orange-50 rounded-lg p-4 border border-brand-primary">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-blue-800">En Proceso</p>
-                        <p class="text-2xl font-bold text-blue-900 mt-1">
+                        <p class="text-sm font-medium text-brand-primary">En Proceso</p>
+                        <p class="text-2xl font-bold text-brand-secondary mt-1">
                             {{ $tickets->where('estado.value', 1)->count() }}
                         </p>
                     </div>
-                    <div class="h-10 w-10 bg-blue-200 rounded-lg flex items-center justify-center">
-                        <svg class="h-5 w-5 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="h-10 w-10 bg-orange-200 rounded-lg flex items-center justify-center">
+                        <svg class="h-5 w-5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>

@@ -12,34 +12,41 @@
 </head>
 <body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen antialiased">
     
-    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md w-full space-y-8">
-            
-            <!-- Logo / Brand -->
-            <div class="text-center">
-                <div class="mx-auto h-16 w-16 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-lg">
-                    <svg class="h-10 w-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
+    <div class="min-h-screen flex items-center justify-center py-6 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Tarjeta Izquierda: Logo y Branding -->
+                <div class="bg-white rounded-2xl shadow-lg border border-brand-neutral p-8 flex flex-col items-center justify-center">
+                    <div class="text-center">
+                        <div class="mx-auto w-48">
+                            <img src="{{ asset('images/cloudT_Logo.webp') }}" alt="Cloud Tecnologies" class="w-full h-auto">
+                        </div>
+                        <h2 class="mt-6 text-2xl font-bold text-brand-secondary">
+                            Sistema de Gestión de Incidentes
+                        </h2>
+                        <p class="mt-2 text-sm text-gray-600">
+                            Soluciones Inteligentes 360
+                        </p>
+                        <div class="mt-6 pt-6 border-t border-brand-neutral">
+                            <p class="text-xs text-gray-500">
+                                Gestiona y resuelve incidencias de manera eficiente con nuestra plataforma integral
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <h2 class="mt-6 text-3xl font-bold text-slate-900">
-                    Cloud Tecnologies
-                </h2>
-                <p class="mt-2 text-sm text-slate-600">
-                    Sistema de Gestion de Incidentes
-                </p>
-            </div>
 
-            <!-- Content -->
-            <div class="bg-white rounded-2xl shadow-xl p-8 space-y-6">
-                {{ $slot }}
-            </div>
+                <!-- Tarjeta Derecha: Formulario -->
+                <div class="bg-white rounded-2xl shadow-lg border border-brand-neutral p-8 flex flex-col justify-center">
+                    {{ $slot }}
+                </div>
 
+            </div>
+            
             <!-- Footer -->
-            <p class="text-center text-xs text-slate-500">
+            <p class="text-center text-xs text-slate-500 mt-6">
                 &copy; {{ date('Y') }} Cloud Tecnologies. Todos los derechos reservados.
             </p>
-
         </div>
     </div>
 

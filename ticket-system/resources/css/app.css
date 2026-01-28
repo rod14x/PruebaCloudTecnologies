@@ -8,4 +8,22 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    
+    /* Paleta de Colores Cloud Technologies */
+    --color-brand-primary: #CC4A15;      /* Headers - Naranja corporativo */
+    --color-brand-secondary: #24243C;    /* Subtítulos - Azul oscuro */
+    --color-brand-neutral: #D5D6D6;      /* Complementos - Gris claro */
+    
+    /* Variaciones de tonos para mejor uso */
+    --color-brand-primary-light: #E66B30;
+    --color-brand-primary-dark: #A83B11;
+    --color-brand-secondary-light: #3A3A5C;
+    --color-brand-secondary-dark: #1A1A2C;
+}
+
+/* Variables CSS globales para uso directo */
+:root {
+    --cloud-primary: #CC4A15;
+    --cloud-secondary: #24243C;
+    --cloud-neutral: #D5D6D6;
 }
