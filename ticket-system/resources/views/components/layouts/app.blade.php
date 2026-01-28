@@ -15,13 +15,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center space-x-8">
-                    <a href="{{ auth()->user()->esAdministrador() ? route('dashboard') : route('tickets.index') }}" class="flex items-center">
-                        <div class="h-10 w-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg flex items-center justify-center">
-                            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                            </svg>
-                        </div>
-                        <span class="ml-3 text-lg font-semibold text-slate-900">Cloud Tecnologies</span>
+                    <a href="{{ auth()->user()->esAdministrador() ? route('dashboard') : route('tickets.index') }}" class="flex items-center gap-3">
+                        <img src="{{ asset('images/cloudT_Logo.webp') }}" alt="Cloud Tecnologies" class="h-10 w-auto">
+                        <span class="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">Cloud Tecnologies</span>
                     </a>
 
                     <!-- Navigation -->
@@ -42,12 +38,12 @@
                 </div>
 
                 <div class="flex items-center gap-8">
-                    <span class="px-4 py-2 text-xs font-medium rounded-full {{ auth()->user()->esAdministrador() ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700' }}">
+                    <span class="px-4 py-2 text-xs font-medium rounded-full {{ auth()->user()->esAdministrador() ? 'bg-purple-100 text-purple-700' : 'bg-orange-100 text-brand-primary' }}">
                         {{ auth()->user()->rol->nombre() }}: {{ auth()->user()->name }}
                     </span>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="px-5 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition shadow-sm">
+                        <button type="submit" class="px-5 py-3 text-sm font-medium text-white bg-brand-primary rounded-lg hover:bg-brand-primary-dark transition shadow-sm">
                             Cerrar sesión
                         </button>
                     </form>

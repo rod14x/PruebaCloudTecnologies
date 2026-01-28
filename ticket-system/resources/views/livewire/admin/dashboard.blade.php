@@ -9,7 +9,7 @@
         <!-- KPIs Principales -->
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8">
             <!-- Total Tickets -->
-            <div class="bg-gradient-to-br from-blue-500 to-blue-600 overflow-hidden shadow-lg rounded-lg">
+            <div class="bg-gradient-to-br from-brand-primary to-brand-primary-dark overflow-hidden shadow-lg rounded-lg">
                 <div class="p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -19,7 +19,7 @@
                         </div>
                         <div class="ml-5 w-0 flex-1">
                             <dl>
-                                <dt class="text-sm font-medium text-blue-100 truncate">Total Tickets Registrados</dt>
+                                <dt class="text-sm font-medium text-orange-100 truncate">Total Tickets Registrados</dt>
                                 <dd class="text-4xl font-bold text-white">{{ $totalTickets }}</dd>
                             </dl>
                         </div>
@@ -90,18 +90,18 @@
             </div>
 
             <!-- En Proceso -->
-            <div class="bg-white overflow-hidden shadow-sm rounded-lg border-l-4 border-blue-400">
+            <div class="bg-white overflow-hidden shadow-sm rounded-lg border-l-4 border-brand-primary">
                 <div class="p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <svg class="h-8 w-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-8 w-8 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                             </svg>
                         </div>
                         <div class="ml-5 w-0 flex-1">
                             <dl>
                                 <dt class="text-sm font-medium text-gray-500 truncate">En Proceso</dt>
-                                <dd class="text-3xl font-semibold text-blue-600">{{ $stats['en_proceso'] }}</dd>
+                                <dd class="text-3xl font-semibold text-brand-primary">{{ $stats['en_proceso'] }}</dd>
                             </dl>
                         </div>
                     </div>
@@ -206,7 +206,7 @@
                     @endif
 
                     <div class="mt-4">
-                        <a href="{{ route('admin.tickets.index') }}" class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                        <a href="{{ route('admin.tickets.index') }}" class="text-sm text-brand-primary hover:text-brand-primary-dark font-medium">
                             Ver todos los tickets →
                         </a>
                     </div>
@@ -229,7 +229,7 @@
                                             @if($ticket->estado->value === 0)
                                                 <span class="h-2 w-2 rounded-full bg-amber-400 inline-block"></span>
                                             @elseif($ticket->estado->value === 1)
-                                                <span class="h-2 w-2 rounded-full bg-blue-400 inline-block"></span>
+                                                <span class="h-2 w-2 rounded-full bg-brand-primary inline-block"></span>
                                             @else
                                                 <span class="h-2 w-2 rounded-full bg-green-400 inline-block"></span>
                                             @endif
