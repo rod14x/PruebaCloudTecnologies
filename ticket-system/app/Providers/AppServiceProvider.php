@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\Contracts\TicketRepositoryInterface;
+use App\Repositories\TicketRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Registrar Repository Pattern con Dependency Injection
+        $this->app->bind(TicketRepositoryInterface::class, TicketRepository::class);
     }
 
     /**

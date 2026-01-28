@@ -12,6 +12,22 @@
         </a>
     </div>
 
+    <!-- Info: Auto-ocultación de tickets resueltos -->
+    <div class="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div class="flex items-start">
+            <svg class="h-5 w-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div>
+                <h3 class="text-sm font-medium text-blue-900 mb-1">Auto-archivo de tickets</h3>
+                <p class="text-sm text-blue-700">
+                    Los tickets resueltos se ocultarán automáticamente después de <strong>1 semana</strong> para mantener tu lista organizada. 
+                    No se eliminan, solo dejan de mostrarse.
+                </p>
+            </div>
+        </div>
+    </div>
+
     @if($tickets->isEmpty())
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
             <svg class="h-16 w-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -79,6 +95,13 @@
                                 {{ $ticket->estado->nombre() }}
                             </span>
 
+                            <!-- Aviso de próxima ocultación (si está resuelto hace más de 6 días) -->
+                            @if($ticket->estado->value === 2 && $ticket->updated_at->diffInDays(now()) >= 6)
+                                <span class="px-2 py-1 text-xs bg-orange-50 text-orange-700 rounded border border-orange-200">
+                                    Se ocultará pronto
+                                </span>
+                            @endif
+
                             <!-- Prioridad -->
                             <div class="flex items-center gap-1.5">
                                 <span class="w-2.5 h-2.5 rounded-full
@@ -91,6 +114,19 @@
                                 </span>
                             </div>
                         </div>
+                    </div>
+                    
+                    <!-- Botón Ver Detalles -->
+                    <div class="mt-4 pt-4 border-t border-slate-100">
+                        <a href="{{ route('tickets.show', $ticket->id) }}">
+                            <x-button type="button" variant="primary" class="w-full sm:w-auto">
+                                <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                                Ver Detalles
+                            </x-button>
+                        </a>
                     </div>
                 </div>
             @endforeach

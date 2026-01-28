@@ -1,20 +1,31 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Livewire\Admin\AdminTickets;
+use App\Livewire\Admin\Dashboard as AdminDashboard;
+use App\Livewire\Auth\ForgotPassword;
+use App\Livewire\Auth\Login;
+use App\Livewire\Auth\Register;
+use App\Livewire\Auth\ResetPassword;
+use App\Livewire\Tickets\CambiarEstado;
+use App\Livewire\Tickets\CreateTicket;
+use App\Livewire\Tickets\MyTickets;
+use App\Livewire\Tickets\TicketShow;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Rutas de autenticación
 Route::middleware('guest')->group(function () {
-    Route::get('/login', \App\Livewire\Auth\Login::class)->name('login');
-    Route::get('/register', \App\Livewire\Auth\Register::class)->name('register');
-    Route::get('/forgot-password', \App\Livewire\Auth\ForgotPassword::class)->name('password.request');
-    Route::get('/reset-password', \App\Livewire\Auth\ResetPassword::class)->name('password.reset');
+    Route::get('/login', Login::class)->name('login');
+    Route::get('/register', Register::class)->name('register');
+    Route::get('/forgot-password', ForgotPassword::class)->name('password.request');
+    Route::get('/reset-password', ResetPassword::class)->name('password.reset');
 });
 
-Route::post('/logout', function () {
-    auth()->logout();
-    session()->invalidate();
-    session()->regenerateToken();
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
     return redirect('/login');
 })->middleware('auth')->name('logout');
 
@@ -26,21 +37,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard - Solo para Administradores
     Route::get('/dashboard', function () {
         // Si es empleado, redirigir a mis tickets
-        if (auth()->user()->esEmpleado()) {
+        if (Auth::user()->esEmpleado()) {
             return redirect()->route('tickets.index');
         }
-        return view('dashboard');
+        // Si es admin, mostrar dashboard administrativo
+        return redirect()->route('admin.dashboard');
     })->name('dashboard');
 
-    // Tickets - Solo usuarios autenticados
-    Route::get('/tickets', \App\Livewire\Tickets\MyTickets::class)->name('tickets.index');
-    Route::get('/tickets/create', \App\Livewire\Tickets\CreateTicket::class)->name('tickets.create');
-    // Route::get('/tickets/{ticket}', \App\Livewire\Tickets\TicketShow::class)->name('tickets.show'); // por implementar
+    // Rutas de Admin
+    Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/dashboard', AdminDashboard::class)->name('dashboard');
+        Route::get('/tickets', AdminTickets::class)->name('tickets.index');
+    });
 
-    // Rutas de perfil
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Tickets - Accesibles por usuarios autenticados
+    Route::get('/tickets', MyTickets::class)->middleware('employee')->name('tickets.index');
+    Route::get('/tickets/create', CreateTicket::class)->middleware('employee')->name('tickets.create');
+    Route::get('/tickets/{ticket}', TicketShow::class)->name('tickets.show'); // Ambos roles
+    Route::get('/tickets/{ticket}/cambiar-estado', CambiarEstado::class)
+        ->middleware('admin')
+        ->name('tickets.cambiar-estado');
 });
 
-// require __DIR__.'/auth.php';

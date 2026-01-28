@@ -71,13 +71,13 @@ class User extends Authenticatable
         return $this->hasMany(HistorialEstado::class, 'usuario_id');
     }
 
-    // Helpers
-    public function esAdministrador()
+    // Helpers para roles
+    public function esAdministrador(): bool
     {
         return $this->rol === RolUsuario::ADMINISTRADOR;
     }
 
-    public function esEmpleado()
+    public function esEmpleado(): bool
     {
         return $this->rol === RolUsuario::EMPLEADO;
     }
